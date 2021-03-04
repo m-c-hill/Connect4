@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class MyConnectFour {
 
@@ -122,10 +121,6 @@ public class MyConnectFour {
             getUserInput();
         }
         return toReturn;
-    }
-
-    private void printBoard2(){
-        System.out.println(Arrays.deepToString(board));
     }
 
     private void printBoard(){
