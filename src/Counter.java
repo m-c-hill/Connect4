@@ -9,5 +9,4 @@ public class Counter {
     public char getColour(){
         return this.colour;
     }
-
 }
