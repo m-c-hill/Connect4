@@ -1,18 +1,14 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.concurrent.ThreadLocalRandom;
-
 public class AI extends Player{
 
-    MiniMax minimax = new MiniMax(4, counter);
+    MiniMax minimax;
 
-    public AI(String name, char colour) {
+    public AI(String name, char colour, Counter oppCounter) {
         super(name, colour);
+        minimax = new MiniMax(counter, oppCounter);
     }
 
     @Override
     public int playerInput(Board b) {
-        return minimax.bestMove(b);
+        return minimax.getMiniMax(b, 7, true)[1];
     }
 }

@@ -174,14 +174,10 @@ public class Board{
         return lastPlacedStack.peek();
     }
 
-    public int getScore(Counter AICounter){
+    public int getScore(Counter playerCounter){
         int score = 0;
         int row = lastPlacedCounter()[0];
         int column = lastPlacedCounter()[1];
-
-        if(checkWin(AICounter)){
-            return 1000000;
-        }
 
         // Check if middle column is available
         int centralColumn = nColumns / 2;
@@ -192,13 +188,13 @@ public class Board{
         // Check row
         for(int i = 0; i < nColumns - 3; i++){
             Counter[] subRow = {board[row][i], board[row][i+1], board[row][i+2], board[row][i+3]};
-            score += scoreSubArray(subRow, AICounter);
+            score += scoreSubArray(subRow, playerCounter);
         }
 
         // Check column
         for(int i = 0; i < nRows - 3; i++){
             Counter[] subColumn = {board[i][column], board[i+1][column], board[i+2][column], board[i+3][column]};
-            score += scoreSubArray(subColumn, AICounter);
+            score += scoreSubArray(subColumn, playerCounter);
         }
 
         // Check ascending diagonal
@@ -210,10 +206,8 @@ public class Board{
             y_asc -= 1;
         }
         while(x_asc < nColumns - 3 && y_asc < nRows - 3){
-            System.out.printf("x %d ", x_asc+3);
-            System.out.printf("y %d\n", y_asc+3);
             Counter[] ascDiag = {board[y_asc][x_asc], board[y_asc+1][x_asc+1], board[y_asc+2][x_asc+2], board[y_asc+3][x_asc+3]};
-            score += scoreSubArray(ascDiag, AICounter);
+            score += scoreSubArray(ascDiag, playerCounter);
             x_asc += 1;
             y_asc += 1;
         }
@@ -228,7 +222,7 @@ public class Board{
         }
         while(x_des < nColumns - 3 && y_des >= 3){
             Counter[] desDiag = {board[y_des][x_des], board[y_des-1][x_des+1], board[y_des-2][x_des+2], board[y_des-3][x_des+3]};
-            score += scoreSubArray(desDiag, AICounter);
+            score += scoreSubArray(desDiag, playerCounter);
             x_des += 1;
             y_des -= 1;
         }
@@ -236,34 +230,30 @@ public class Board{
         return score;
     }
 
-    private int scoreSubArray(Counter[] counters, Counter AICounter){
+    private int scoreSubArray(Counter[] counters, Counter playerCounter){
         int score = 0;
         int nullCount = 0;
-        int redCount = 0; // Human count
-        int yellowCount = 0; // AI count
+        int playerCount = 0; // AI count
 
         for(int i = 0; i < counters.length; i++){
             if(counters[i] == null){
                 nullCount += 1;
             }
-            if(counters[i] == AICounter){
-                yellowCount += 1;
-            }
-            else{
-                redCount +=1;
+            if(counters[i] == playerCounter){
+                playerCount += 1;
             }
         }
 
-        if(yellowCount == 4){
-            score += 10000;
+        if(playerCount == 4){
+            score += 100;
         }
-        if(yellowCount == 3 && nullCount == 1){
-            score += 5;
+
+        if(playerCount == 3 && nullCount == 1){
+            score += 10;
         }
-        if(yellowCount == 2 && nullCount == 2){
+        if(playerCount == 2 && nullCount == 2){
             score += 2;
         }
         return score;
     }
-
 }

@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 public class Game {
     private BufferedReader input;
@@ -16,7 +17,7 @@ public class Game {
         board = new Board(6, 7);
         input = new BufferedReader(new InputStreamReader(System.in));
         player1 = new Human("Player 1", 'r', input);
-        player2 = new AI("Player 2", 'y');
+        player2 = new AI("Player 2", 'y', player1.counter);
         playGame();
     }
 
@@ -34,7 +35,12 @@ public class Game {
                 break;
             }
 
-            // Player 2 takes turn
+            // Player 2 takes
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e){
+                continue;
+            }
             hasWon = player2.playTurn(board);
             boardFull = board.checkFullBoard();
         }
