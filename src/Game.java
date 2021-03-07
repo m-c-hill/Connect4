@@ -5,22 +5,18 @@ import java.io.InputStreamReader;
 public class Game {
     private BufferedReader input;
     private Board board;
-    private boolean boardFull = false;
-    private boolean hasWon = false;
-    private int currentPlayerIndex = -1;
-    private int nPlayers = 2;
 
     Human player1;
-    Human player2; // Change to AI
-    Player[] playerList;
+    AI player2;
+
+    private boolean boardFull = false;
+    private boolean hasWon = false;
 
     public Game() {
         board = new Board(6, 7);
         input = new BufferedReader(new InputStreamReader(System.in));
         player1 = new Human("Player 1", 'r', input);
-        player2 = new Human("Player 2", 'y', input);
-        //player2 = new AI("Player 2", 'y');
-        playerList = new Player[] {player1, player2};
+        player2 = new AI("Player 2", 'y');
         playGame();
     }
 
@@ -30,21 +26,20 @@ public class Game {
         Player currentPlayer;
 
         while (!hasWon && !boardFull) {
-            currentPlayer = getCurrentPlayer();
-            hasWon = currentPlayer.playTurn(board);
+
+            // Player 1 takes turn
+            hasWon = player1.playTurn(board);
             boardFull = board.checkFullBoard();
-            if(hasWon){
-                currentPlayer.setWinner();
+            if(boardFull || hasWon){
+                break;
             }
+
+            // Player 2 takes turn
+            hasWon = player2.playTurn(board);
+            boardFull = board.checkFullBoard();
         }
         finalMessage();
         playAgain();
-    }
-
-    private Player getCurrentPlayer(){
-        currentPlayerIndex += 1;
-        currentPlayerIndex = (currentPlayerIndex > nPlayers - 1) ? 0:currentPlayerIndex;
-        return playerList[currentPlayerIndex];
     }
 
     private void openingMessage(){
@@ -56,11 +51,10 @@ public class Game {
     }
 
     private void finalMessage(){
-        String winner;
         if(!hasWon && boardFull) {
             System.out.println("Game over: board is full - no winners.");
         } else {
-            winner = Player.getWinner(new Player[]{player1, player2});
+            String winner = Player.getWinner(new Player[]{player1, player2});
             System.out.printf("%s is the winner!\n", winner);
         }
     }
@@ -80,22 +74,17 @@ public class Game {
         }
     }
 
-    private void clearConsole(){
-        // Clear the console
-    }
-
     private void resetGame(){
         hasWon = false;
         boardFull = false;
+        player1.resetPlayer();
+        player2.resetPlayer();
         board.reset();
         playGame();
     }
-
 }
 
 /*
  To add:
-    > Ability to choose colour
-    > Limited colours to choose from
     > Sort out confusing mess of player lists...
  */

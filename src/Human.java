@@ -19,10 +19,6 @@ public class Human extends Player {
         try {
             token = input.readLine();
 
-            if(token.toLowerCase() == "reset"){
-
-            }
-
             columnChoice = Integer.parseInt(token);
             if (columnChoice < 1 || columnChoice > 7) {
                 throw new InvalidColumnException(7);

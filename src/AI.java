@@ -5,12 +5,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class AI extends Player{
 
+    MiniMax minimax = new MiniMax(4, counter);
+
     public AI(String name, char colour) {
         super(name, colour);
     }
 
     @Override
     public int playerInput(Board b) {
-        return ThreadLocalRandom.current().nextInt(1, 8);
+        return minimax.bestMove(b);
     }
 }

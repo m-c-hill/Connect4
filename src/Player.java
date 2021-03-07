@@ -14,11 +14,8 @@ public abstract class Player {
     public boolean playTurn(Board board) {
         board.placeCounter(counter, playerInput(board));
         board.display();
-        return board.checkWin(counter);
-    }
-
-    public void setWinner(){
-        this.isWinner = true;
+        this.isWinner = board.checkWin(counter);
+        return isWinner;
     }
 
     public static String getWinner(Player[] playerList){
@@ -30,9 +27,8 @@ public abstract class Player {
         return "";
     }
 
-    public static void resetPlayers(Player[] playerList){
-        for(int i = 0; i < playerList.length; i++){
-            playerList[i].isWinner = false;
-        }
+    public void resetPlayer(){
+        this.isWinner = false;
     }
+
 }
