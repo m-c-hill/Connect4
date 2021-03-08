@@ -6,7 +6,7 @@
  * This algorithm was partially derived from the above two sources.
  *
  * Please note that the below algorithm is only a rough idea of what can be achieved and the AI still makes some mistakes.
- * It still needs a lot of tweaking and fine tuning in order to perfect it, but in it's current state, allows for a
+ * It still needs a lot of tweaking and fine tuning in order to perfect it, but in its current state, it allows for a
  * challenging game of Connect4.
  */
 
