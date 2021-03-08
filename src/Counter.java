@@ -1,6 +1,6 @@
 public class Counter {
 
-    private char colour;
+    private final char colour;
 
     public Counter(char colour){
         this.colour = colour;
